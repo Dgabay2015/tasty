@@ -16,7 +16,7 @@ def my_form_post():
     text=text.capitalize()
     print(first_letter)
     my_list_of_same_letter_adjectives = []
-
+    # readin list of adjectives
     with open('adjectives.txt', 'r') as f:
         for line in f:
             for word in line.split():
@@ -29,11 +29,36 @@ def my_form_post():
     random_adjective = random.choice(my_list_of_same_letter_adjectives)
     print(random_adjective)
     show_text= (random_adjective+ " " +text)
-    boldtext = Markup("<b>"+show_text+"!<b>")
-
-    return render_template( 'index.html', boldtext=boldtext  )
 
 
+    # boldtext = Markup(""+show_text+"!")
+
+    with open('somefile.txt', 'a') as the_file:
+        the_file.write(show_text+'\n')
+    # final_text =
+    my_names = ""
+    count = 0
+    with open('somefile.txt', 'r') as f:
+        for line in f:
+            count +=1
+            my_names += line.rstrip()+", "
+    # final_text = Markup(my_names+",")
+    team_name = "testing"
+    # array_of_dicts_names_scores = []
+    # d ={
+    #     'name': team_name,
+    #     'score': 35,
+    # }
+    # array_of_dicts_names_scores.append(d)
+
+    with open('teamname.txt', 'a') as the_file:
+        the_file.write(team_name +"  "+ str(count)+ "\n")
+
+
+    return render_template('index.html', boldtext=my_names , count=count)
+
+
+open('somefile.txt', 'w').close()
 
 # first_letter = "w"
 # # temporary first letter
