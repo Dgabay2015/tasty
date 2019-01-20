@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return render_template('index3.html')
+    return render_template('index5.html')
 
 @app.route('/', methods=['POST'])
 def my_form_post():
@@ -63,19 +63,19 @@ def my_form_post():
     cur.execute('''CREATE TABLE IF NOT EXISTS Teams
     (id INTEGER PRIMARY KEY, teamname TEXT UNIQUE, score INTEGER)''')
 
-    cur.execute('SELECT score FROM Teams WHERE teamname=? LIMIT 1', ("TESTING",))
+    cur.execute('SELECT * FROM Teams ORDER BY id DESC LIMIT 1')
     try:
         row = cur.fetchone()
-        score = row[0]
+        player = row[1]
+        score = row[2]
         score+=1
-        print(score)
-        #cur.execute('SELECT score FROM Teams WHERE teamname=? LIMIT 1', ("TESTING",))
-        #row=cur.fetchone()
-        cur.execute('UPDATE Teams SET score = ? WHERE teamname = ?', (score, "TESTING"))
+        #print(score)
+
+        cur.execute('UPDATE Teams SET score = ? WHERE teamname = ?', (score, player))
 
     except:
         score=1
-        cur.execute('INSERT OR IGNORE INTO Teams (teamname, score) VALUES (?, ?)', ("TESTING", score))
+        cur.execute('INSERT OR IGNORE INTO Teams (teamname, score) VALUES (?, ?)', ("UNNAMED", score))
 
 
     conn.commit()
@@ -83,7 +83,7 @@ def my_form_post():
 
 
 
-    return render_template('index3.html', my_names=my_names , count=count)
+    return render_template('index5.html', my_names=my_names , count=count)
 
 # count = 0
 # with open('somefile.txt', 'r') as f:
@@ -93,8 +93,43 @@ def my_form_post():
 
 
 #
-@app.route('/after', methods=['POST'])
+@app.route('/clear', methods=['POST'])
 def my_form_post2():
+    # removing somefile
+    open('somefile.txt', 'w').close()
+
+    # create tuples
+    scores=[]
+    names=[]
+    text = request.form['teamName']
+
+    conn = sqlite3.connect('data.sqlite')
+    cur = conn.cursor()
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS Teams
+        (id INTEGER PRIMARY KEY, teamname TEXT UNIQUE, score INTEGER)''')
+
+    cur.execute('SELECT * FROM Teams ORDER BY score DESC LIMIT 3')
+    for row in cur:
+        scores.append(row[1])
+
+
+
+
+    cur.execute('SELECT score FROM Teams WHERE teamname=? LIMIT 1', (text,))
+    try:
+        row = cur.fetchone()
+        scores = row[2]
+        names = row[1]
+
+
+    except:
+        score = 0
+        cur.execute('INSERT OR IGNORE INTO Teams (teamname, score) VALUES (?, ?)', (text, score))
+
+    conn.commit()
+    cur.close()
+
     # count = 0
     # with open('somefile.txt', 'r') as f:
     #     for line in f:
@@ -111,9 +146,8 @@ def my_form_post2():
 
 
     # text = request.form['firstname2']
-    return render_template('leader.html', count=count)
+    return render_template('index5.html', name =text, scores=scores, names=names)
 
-# open('somefile.txt', 'w').close()
 
 # first_letter = "w"
 # # temporary first letter

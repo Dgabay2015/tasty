@@ -1,4 +1,10 @@
-*{
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+
+
+    *{
 padding:0;
 margin: 0;
 }
@@ -143,3 +149,56 @@ body .right-column #score-logo{
   height: 150px;
   /* margin-top: -30px; */
 }
+
+
+  </style>
+  <meta chatset="UTF-8">
+   <!--<link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='style.css') }}">-->
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:200,300,400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
+  <title>Name Game</title>
+</head>
+<body>
+  <img src="http://2016.swamphacks.com/images/swamphacks-logo.png" alt="swamphacks logo" id="swamp-logo">
+  <h1 id="game_title">The Name Game</h1>
+  <div class="container">
+    <div class="left-column">
+      <div class="btns">
+        <!-- <h1>Please enter your name: </h1> -->
+        <!-- submit form -->
+        <form action="/" method="POST">
+          <input id="input-form" type="text" name="firstname" placeholder="Enter player name">
+          <button id="submit-btn"><input type="submit" value="Submit"></button>
+        </form>
+        <!-- new team form -->
+        <form action="/clear" method="POST">
+          <input id="input-form2" type="text" name="teamName" placeholder="Enter new team's name">
+          <button id="new-team-btn"><input type="submit" value="New Team"></button>
+        </form>
+      </div>
+      <div class="nickname">
+         <h1>Your nickname is:
+      {%for name in my_names%}
+          <p>{{name}}</p>
+
+       {%endfor%}
+      </h1>
+      <h1>count is:{{count}}</h1>
+      </div>
+    </div>
+    <div class="right-column">
+
+      <img id="score-logo" src="https://c10.patreonusercontent.com/3/eyJ3Ijo0MDB9/patreon-media/p/reward/2700645/3a91fd01cb12426e9ce8181f9f318018/2?token-time=2145916800&token-hash=aPOTRMCfdGnGe7H5FBGYDtqAHI2pZYN8K2i0med9Ia8%3D" alt="trophy gif">
+       <h1>Highscores</h1>
+      <h1>
+        <!--{{scores}} {{names}}-->
+
+        {%for name1 in names%}
+            <p>{{name1}}</p>
+
+         {%endfor%}
+
+      </h1>
+    </div>
+  </div>
+</body>
