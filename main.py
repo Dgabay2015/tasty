@@ -111,7 +111,9 @@ def my_form_post2():
 
     cur.execute('SELECT * FROM Teams ORDER BY score DESC LIMIT 3')
     for row in cur:
-        scores.append(row[1])
+        scores.append(row[2])
+        names.append(row[1]+" "+str(row[2]))
+
 
 
 
@@ -119,9 +121,7 @@ def my_form_post2():
     cur.execute('SELECT score FROM Teams WHERE teamname=? LIMIT 1', (text,))
     try:
         row = cur.fetchone()
-        scores = row[2]
-        names = row[1]
-
+        score = row[0]
 
     except:
         score = 0
