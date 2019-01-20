@@ -1,0 +1,6 @@
+teams = [tuple[0] for tuple in scores]
+vals = [tuple[1] for tuple in scores]
+scores = list(zip(teams, vals))
+
+scores = [('team1', 2), ('team2', 5), ('team3', 7)]
+sorted(scores, key = lambda tuple: tuple[1], reverse=True)[:2]

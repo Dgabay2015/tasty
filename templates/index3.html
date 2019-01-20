@@ -1,4 +1,9 @@
-*{
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+
+    *{
 padding:0;
 margin: 0;
 }
@@ -151,3 +156,89 @@ body .right-column #score-logo{
   height: 150px;
   /* margin-top: -30px; */
 }
+
+
+
+  </style>
+  <meta chatset="UTF-8">
+   <link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='style.css') }}">
+  <!--<link rel="stylesheet" type="text/css" href= "css/style.css">-->
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:200,300,400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
+  <title>Name Game</title>
+</head>
+<body>
+  <img src="http://2016.swamphacks.com/images/swamphacks-logo.png" alt="swamphacks logo" id="swamp-logo">
+  <h1 id="game_title">The Name Game</h1>
+  <div class="container">
+    <div class="left-column">
+      <div class="btns">
+        <h1>Please enter your name: </h1>
+        <form action="/" method="POST">
+          <input id="input-form" type="text" name="firstname">
+          <button id="submit-btn"><input type="submit" value="Submit"></button>
+        </form>
+            <!--<button onClick="refresh">summary</button>-->
+
+          <p id="output"></p>
+                  <button id="new-team-btn">New Team</button>
+
+
+        <!--<form action="/after" method="POST">-->
+          <!--<input id="input-form2" type="text" name="firstname2">-->
+          <!--<button id="new-team-btn"><input type="submit" value="Submit"name="firstname2">New Team</button>-->
+        <!--</form>-->
+
+        <!--<form action="/" method="POST">-->
+          <!--&lt;!&ndash;<input id="input-form" type="text" name="resetbutton">&ndash;&gt;-->
+          <!--<button id="new-team-btn"><input type="submit" value="Submit"></button>-->
+        <!--</form>-->
+
+        <!--<button value="Refresh Page" onClick="window.location.reload()"></button>-->
+
+        <!--<button type="reset" value="REFRESH" id="new-team-btn"><a href="google.com">New Team</a></button>-->
+      </div>
+      <div class="nickname">
+      <h1>Your nickname is:
+      {%for name in my_names%}
+          <p>{{name}}</p>
+
+       {%endfor%}
+      </h1>
+      <h1>count is:{{count}}</h1>
+      </div>
+    </div>
+    <div class="right-column">
+      <!-- <h1>Highscores</h1> -->
+      <img id="score-logo" src="https://c10.patreonusercontent.com/3/eyJ3Ijo0MDB9/patreon-media/p/reward/2700645/3a91fd01cb12426e9ce8181f9f318018/2?token-time=2145916800&token-hash=aPOTRMCfdGnGe7H5FBGYDtqAHI2pZYN8K2i0med9Ia8%3D" alt="trophy gif">
+
+    </div>
+  </div>
+</body>
+<script>
+<!--window.onload = function(){-->
+    <!--var name = prompt("What's your name?");-->
+    <!--var lengthOfName = name.length-->
+
+    <!--document.getElementById('output').innerHTML = {{count}};-->
+<!--};-->
+
+
+var button = document.getElementById("new-team-btn");
+button.addEventListener("click",function(e){
+    document.getElementById('output').innerHTML = {{count}};
+
+},false);
+
+<!--function httpGet("http://127.0.0.1:5000/")-->
+<!--{-->
+    <!--var xmlHttp = new XMLHttpRequest();-->
+    <!--xmlHttp.open( "GET","http://127.0.0.1:5000/" , false ); // false for synchronous request-->
+    <!--xmlHttp.send( null );-->
+    <!--return xmlHttp.responseText;-->
+<!--}-->
+<!--resp= httpGet()-->
+
+   <!--document.getElementById('output').innerHTML = {{count}};-->
+
+</script>

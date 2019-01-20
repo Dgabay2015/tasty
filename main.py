@@ -1,12 +1,12 @@
 from flask import Flask, request, render_template
-import random
+import random, sqlite3
 from flask import Markup
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+    return render_template('index3.html')
 
 @app.route('/', methods=['POST'])
 def my_form_post():
@@ -36,12 +36,13 @@ def my_form_post():
     with open('somefile.txt', 'a') as the_file:
         the_file.write(show_text+'\n')
     # final_text =
-    my_names = ""
-    count = 0
+    # my_nam
     with open('somefile.txt', 'r') as f:
-        for line in f:
-            count +=1
-            my_names += line.rstrip()+", "
+        # for line in f:
+        #     count +=1
+        #     my_names += line.rstrip()+", "
+        my_names= [line.rstrip() for line in f]
+        count = len(my_names)
     # final_text = Markup(my_names+",")
     team_name = "testing"
     # array_of_dicts_names_scores = []
@@ -51,14 +52,68 @@ def my_form_post():
     # }
     # array_of_dicts_names_scores.append(d)
 
-    with open('teamname.txt', 'a') as the_file:
-        the_file.write(team_name +"  "+ str(count)+ "\n")
+    #with open('teamname.txt', 'a') as the_file:
+        # the_file.write(team_name +"  "+ str(count)+ "\n")
+    #    the_file.write(team_name +"\n")
 
 
-    return render_template('index.html', boldtext=my_names , count=count)
+    conn = sqlite3.connect('data.sqlite')
+    cur = conn.cursor()
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS Teams
+    (id INTEGER PRIMARY KEY, teamname TEXT UNIQUE, score INTEGER)''')
+
+    cur.execute('SELECT score FROM Teams WHERE teamname=? LIMIT 1', ("TESTING",))
+    try:
+        row = cur.fetchone()
+        score = row[0]
+        score+=1
+        print(score)
+        #cur.execute('SELECT score FROM Teams WHERE teamname=? LIMIT 1', ("TESTING",))
+        #row=cur.fetchone()
+        cur.execute('UPDATE Teams SET score = ? WHERE teamname = ?', (score, "TESTING"))
+
+    except:
+        score=1
+        cur.execute('INSERT OR IGNORE INTO Teams (teamname, score) VALUES (?, ?)', ("TESTING", score))
 
 
-open('somefile.txt', 'w').close()
+    conn.commit()
+    cur.close()
+
+
+
+    return render_template('index3.html', my_names=my_names , count=count)
+
+# count = 0
+# with open('somefile.txt', 'r') as f:
+#     for line in f:
+#         count +=1
+
+
+
+#
+@app.route('/after', methods=['POST'])
+def my_form_post2():
+    # count = 0
+    # with open('somefile.txt', 'r') as f:
+    #     for line in f:
+    #         count += 1
+
+   # with open('teamname.txt', 'r') as f:
+   #     for line in f:
+   #         if (line == "testing"):
+   #             t1 =+ 1
+   #         if (line == "cool dudes"):
+   #             t2 =+1
+   #         if (line == "panthers"):
+   #             t3 =+1
+
+
+    # text = request.form['firstname2']
+    return render_template('leader.html', count=count)
+
+# open('somefile.txt', 'w').close()
 
 # first_letter = "w"
 # # temporary first letter
